@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Incident {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  description        String
+  category           String?
+  priority           String?
+  status             String   @default("open")
+  assignee           String?
+  isDuplicate        Boolean  @default(false)
+  duplicateOfId      Int?
+  aiSummary          String?
+  aiSuggestedSteps   String?
+  linkedKbArticleIds String?  // Stored as JSON string or comma-separated list
+  resolution         String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model KBArticle {
+  id      Int    @id @default(autoincrement())
+  title   String
+  content String
+  tags    String?
+}
